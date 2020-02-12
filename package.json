@@ -1,0 +1,31 @@
+{
+  "name": "frontend-project-lvl2",
+  "version": "1.0.0",
+  "description": "Second study project on Hexlet",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrey-Nechaev/frontend-project-lvl2.git"
+  },
+  "bin": {
+    "gendiff": "src/bin/gendiff.js"
+  },
+  "keywords": [
+    "cli",
+    "gendiff",
+    "hexlet",
+    "study project"
+  ],
+  "author": "Andrey Nechaev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrey-Nechaev/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/Andrey-Nechaev/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^4.1.1"
+  }
+}
