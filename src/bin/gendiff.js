@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-console.log('gendiff.js was runed');
+import gendiff from '..';
+//const gendiff = (a, b) => console.log(a, b);
 
 const program = require('commander');
 
@@ -10,8 +11,7 @@ program
   .arguments('<secondConfig>')
   .option('-f, --format [type]', 'output format')
   .action((firstConfig, secondConfig) => {
-    console.log('firstConfig = ' + firstConfig);
-    console.log('secondConfig = ' + secondConfig);
+  	console.log(gendiff(firstConfig, secondConfig));
   });
 
 program.parse(process.argv);
