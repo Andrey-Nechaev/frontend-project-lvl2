@@ -31,7 +31,7 @@ jobs:
       uses: paambaati/codeclimate-action@v2.4.0 # Действие публикует code coverage вашего проекта в Code Climate
       env:
       # Необходима для действия paambaati/codeclimate-action@v2.4.0. Берется из repo settings вашего Code Climate проекта
-        CC_TEST_REPORTER_ID: ${{ a86172d8c89db8e2d035572718c8c02c3da9fa35f08ededd276a3f338936ee40 }}  
+        CC_TEST_REPORTER_ID: 'a86172d8c89db8e2d035572718c8c02c3da9fa35f08ededd276a3f338936ee40' 
       with:
         coverageCommand: make test-coverage # Что за ключ, что делает?
         debug: true # Что за ключ, что делает?
