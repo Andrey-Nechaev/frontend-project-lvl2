@@ -1,0 +1,38 @@
+name: My_ Continuous_Integration
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x, 13.x]
+
+    steps:
+    - uses: actions/checkout@v1 # Клонирует на запущенный ранер файлы репозитория
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1 # Что делает? Устанавливает ноду на запущенный ранер?
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        make install
+        make build
+        make test
+      env:
+        CI: true
+    - name: Run linter
+      run: | 
+        make lint
+    - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.4.0 # Действие публикует code coverage вашего проекта в Code Climate
+        env:
+          # Необходима для действия paambaati/codeclimate-action@v2.4.0. Берется из repo settings вашего Code Climate проекта
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}  
+        with:
+          coverageCommand: make test-coverage # Что за ключ, что делает?
+          debug: true # Что за ключ, что делает?
+
