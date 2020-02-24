@@ -1,5 +1,5 @@
 install:
-	install-deps # Что устанавливает?
+	npm ci # Устанавливает npm-пакет ci - пакет для более быстрой непрерывной инеграции
 
 start:
 	npx babel-node src/bin/gendiff.js # трансляция через babel и запуск gendiff.js
