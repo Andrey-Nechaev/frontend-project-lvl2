@@ -1,13 +1,14 @@
-import { has, hasIn } from 'lodash'; 
+// import hasIn from 'lodash';
+
 const fs = require('fs');
+
 const encoding = 'utf8';
 
 const readFile = (path) => {
-	try {
+  try {
     return fs.readFileSync(path, encoding);
   } catch (err) {
     console.error(err);
-    console.log('Ошибка чтения, файл или путь не существует1');
   }
 };
 
@@ -19,27 +20,34 @@ export default (pathToFile1, pathToFile2) => {
 
   if (isJSON(readFile(pathToFile1))) fileContents1 = JSON.parse(readFile(pathToFile1));
   if (isJSON(readFile(pathToFile2))) fileContents2 = JSON.parse(readFile(pathToFile2));
+  const keysOfContent1 = Object.keys(fileContents1);
+  const keysOfContent2 = Object.keys(fileContents2);
+
+  /*
+  console.log(`keysOfContent1 = ${keysOfContent1}`);
+  console.log(`keysOfContent2 = ${keysOfContent2}`);
+  console.log(`==================================`);
+  */
+
+  const stayedKeys = keysOfContent1.filter((k) => keysOfContent2.includes(k));
+  // console.log(`stayedKeys = ${stayedKeys}`);
+  const deletedKeys = keysOfContent1.filter((k) => !keysOfContent2.includes(k));
+  // console.log(`deletedKeys = ${deletedKeys}`);
+  const addedKeys = keysOfContent2.filter((k) => !keysOfContent1.includes(k));
+  // console.log(`addedKeys = ${addedKeys}`);
+  const unchangedProperties = stayedKeys.filter((k) => fileContents1[k] === fileContents2[k]);
+  // console.log(`unchangedProperties = ${unchangedProperties}`);
+  const changedProperties = stayedKeys.filter((k) => fileContents1[k] !== fileContents2[k]);
+  // console.log(`changedProperties = ${changedProperties}`);
 
   const result = ['{\n'];
-  for (const key in fileContents1) {
-  	if (hasIn(fileContents2, key)) {
-  		if (fileContents1[key] === fileContents2[key]) {
-        result.push(`  ${key}: ${fileContents1[key]}\n`);
-  		}
-  		else {
-  			result.push(`- ${key}: ${fileContents1[key]}\n`);
-  			result.push(`+ ${key}: ${fileContents2[key]}\n`);
-  		}
-  	} else {
-      result.push(`- ${key}: ${fileContents1[key]}\n`);
-  	}
-  }
-  for (const key in fileContents2) {
-  	if (!hasIn(fileContents1, key)) {
-  		result.push(`+ ${key}: ${fileContents2[key]}\n`);
-  	}
-  }
+  unchangedProperties.map((k) => result.push(`    ${k}: ${fileContents1[k]}\n`));
+  changedProperties.map((k) => {
+    result.push(`  - ${k}: ${fileContents1[k]}\n`);
+    return result.push(`  + ${k}: ${fileContents2[k]}\n`);
+  });
+  deletedKeys.map((k) => result.push(`  - ${k}: ${fileContents1[k]}\n`));
+  addedKeys.map((k) => result.push(`  + ${k}: ${fileContents2[k]}\n`));
   result.push('}');
-
-	return result.join('');
+  return result.join('');
 };
