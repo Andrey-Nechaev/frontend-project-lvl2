@@ -20,3 +20,6 @@ test:
 
 test-coverage:
 	npm test -- --coverage # Что значит -- и --coverage?
+
+# Отвязывает от файловой структуры проекта команду test
+.PHONY: test 
