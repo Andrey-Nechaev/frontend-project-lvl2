@@ -19,6 +19,6 @@ test:
 	npm test -- --watch
 
 test-coverage:
-	npm test -- --coverage --watch
+	npm test -- --watch
 
 .PHONY: test 
