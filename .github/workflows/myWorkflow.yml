@@ -12,27 +12,25 @@ jobs:
         node-version: [13.x]
 
     steps:
-    - uses: actions/checkout@v1 # Клонирует на запущенный ранер файлы репозитория
+    - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1 # Что делает? Устанавливает ноду на запущенный ранер?
+      uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - name: npm install, build
       run: |
         make install
         make build
-      # make test
       env:
         CI: true
     #- name: Run linter
       #run: |
         #make lint
     - name: Test & publish code coverage
-      uses: paambaati/codeclimate-action@v2.4.0 # Действие публикует code coverage вашего проекта в Code Climate
+      uses: paambaati/codeclimate-action@v2.4.0
       env:
-        # Необходима для действия paambaati/codeclimate-action@v2.4.0. Берется из repo settings вашего Code Climate проекта
         CC_TEST_REPORTER_ID: 'a86172d8c89db8e2d035572718c8c02c3da9fa35f08ededd276a3f338936ee40'  
       with:
-        coverageCommand: make test-coverage # Что за ключ, что делает?
-        debug: true # Что за ключ, что делает?
+        coverageCommand: make test-coverage
+        debug: true
 
