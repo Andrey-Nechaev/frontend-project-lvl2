@@ -1,19 +1,11 @@
 // import hasIn from 'lodash';
+import parseContentOf from './modules/parsers';
 
-const fs = require('fs');
-
-const encoding = 'utf8';
-
-const readFile = (path) => fs.readFileSync(path, encoding);
-
-const isJSON = (str) => str.includes('{');
+// const isJSON = (str) => str.includes('{');
 
 export default (pathToFile1, pathToFile2) => {
-  let fileContents1 = {};
-  let fileContents2 = {};
-
-  if (isJSON(readFile(pathToFile1))) fileContents1 = JSON.parse(readFile(pathToFile1));
-  if (isJSON(readFile(pathToFile2))) fileContents2 = JSON.parse(readFile(pathToFile2));
+  const fileContents1 = parseContentOf(pathToFile1);
+  const fileContents2 = parseContentOf(pathToFile2);
 
   const keysOfContent1 = Object.keys(fileContents1);
   const keysOfContent2 = Object.keys(fileContents2);

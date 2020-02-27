@@ -1,9 +1,12 @@
 install:
 	npm ci
 
-start:
+sj:
 	make pb
 	gendiff __fixtures__/before.json __fixtures__/after.json
+sy:
+	make pb
+	gendiff __fixtures__/before.yml __fixtures__/after.yml
 
 build:
 	rm -rf dist
