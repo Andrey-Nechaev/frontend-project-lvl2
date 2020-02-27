@@ -1,5 +1,4 @@
-import CompareFlattenJSON from '../src';
-import CompareFlattenYAML from '../src';
+import compare from '../src';
 
 const path = require('path');
 
@@ -13,15 +12,15 @@ const pathToYAML2 = path.join(__dirname, '/../__fixtures__/after.yml');
 const emptyFile = path.join(__dirname, '/../__fixtures__/empty');
 
 test('CompareFlattenJSON', () => {
-  expect(CompareFlattenJSON(pathToJSON1, pathToJSON2)).toBe(answear1);
-  expect(CompareFlattenJSON(emptyFile, pathToJSON2)).toBe(answear2);
-  expect(CompareFlattenJSON(pathToJSON1, emptyFile)).toBe(answear3);
-  expect(CompareFlattenJSON(emptyFile, emptyFile)).toBe('{\n}');
+  expect(compare(pathToJSON1, pathToJSON2)).toBe(answear1);
+  expect(compare(emptyFile, pathToJSON2)).toBe(answear2);
+  expect(compare(pathToJSON1, emptyFile)).toBe(answear3);
+  expect(compare(emptyFile, emptyFile)).toBe('{\n}');
 });
 
 test('CompareFlattenYAML', () => {
-  expect(CompareFlattenYAML(pathToYAML1, pathToYAML2)).toBe(answear1);
-  expect(CompareFlattenYAML(emptyFile, pathToYAML2)).toBe(answear2);
-  expect(CompareFlattenYAML(pathToYAML1, emptyFile)).toBe(answear3);
-  expect(CompareFlattenYAML(emptyFile, emptyFile)).toBe('{\n}');
+  expect(compare(pathToYAML1, pathToYAML2)).toBe(answear1);
+  expect(compare(emptyFile, pathToYAML2)).toBe(answear2);
+  expect(compare(pathToYAML1, emptyFile)).toBe(answear3);
+  expect(compare(emptyFile, emptyFile)).toBe('{\n}');
 });
