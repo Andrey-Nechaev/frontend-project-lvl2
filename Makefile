@@ -3,7 +3,7 @@ install:
 
 start:
 	make pb
-	gendiff before.json after.json
+	gendiff __fixtures__/before.json __fixtures__/after.json
 
 build:
 	rm -rf dist
