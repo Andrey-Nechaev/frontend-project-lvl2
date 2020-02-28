@@ -8,6 +8,10 @@ sy:
 	make pb
 	gendiff __fixtures__/before.yml __fixtures__/after.yml
 
+si:
+	make pb
+	gendiff __fixtures__/before.ini __fixtures__/after.ini
+
 build:
 	rm -rf dist
 	npm run build

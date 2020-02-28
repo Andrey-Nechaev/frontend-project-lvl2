@@ -9,6 +9,8 @@ const pathToJSON1 = path.join(__dirname, '/../__fixtures__/before.json');
 const pathToJSON2 = path.join(__dirname, '/../__fixtures__/after.json');
 const pathToYAML1 = path.join(__dirname, '/../__fixtures__/before.yml');
 const pathToYAML2 = path.join(__dirname, '/../__fixtures__/after.yml');
+const pathToini1 = path.join(__dirname, '/../__fixtures__/before.ini');
+const pathToini2 = path.join(__dirname, '/../__fixtures__/after.ini');
 const emptyFile = path.join(__dirname, '/../__fixtures__/empty');
 
 test('CompareFlattenJSON', () => {
@@ -22,5 +24,12 @@ test('CompareFlattenYAML', () => {
   expect(compare(pathToYAML1, pathToYAML2)).toBe(answear1);
   expect(compare(emptyFile, pathToYAML2)).toBe(answear2);
   expect(compare(pathToYAML1, emptyFile)).toBe(answear3);
+  expect(compare(emptyFile, emptyFile)).toBe('{\n}');
+});
+
+test('CompareFlattenini', () => {
+  expect(compare(pathToini1, pathToini2)).toBe(answear1);
+  expect(compare(emptyFile, pathToini2)).toBe(answear2);
+  expect(compare(pathToini1, emptyFile)).toBe(answear3);
   expect(compare(emptyFile, emptyFile)).toBe('{\n}');
 });
