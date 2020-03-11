@@ -1,11 +1,9 @@
 import yaml from 'js-yaml';
+import readFile from './utils';
 
 const path = require('path');
-const fs = require('fs');
 const ini = require('ini');
 
-const encoding = 'utf8';
-const readFile = (pathToFile) => fs.readFileSync(pathToFile, encoding);
 let parser;
 
 export default (pathToFile) => {

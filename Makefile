@@ -4,6 +4,11 @@ install:
 sj:
 	make pb
 	gendiff __fixtures__/before.json __fixtures__/after.json
+
+sj2:
+	make pb
+	gendiff __fixtures__/before2.json __fixtures__/after2.json
+
 sy:
 	make pb
 	gendiff __fixtures__/before.yml __fixtures__/after.yml
