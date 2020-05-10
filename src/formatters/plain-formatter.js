@@ -8,12 +8,7 @@ const stringify = (arg) => {
 const plainRender = (diffs, path = []) => {
   const diffToString = (diff, fullPropertyName) => {
     const curentName = [...fullPropertyName, diff.name];
-    const {
-      type,
-      value,
-      oldValue,
-      newValue,
-    } = diff;
+    const { type, value, oldValue, newValue } = diff;
     if (type === 'inner') {
       return plainRender(diff.children, curentName);
     }

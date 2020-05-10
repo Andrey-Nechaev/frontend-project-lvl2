@@ -1,21 +1,53 @@
 install:
 	npm ci
 
-sj:
+json:
 	make pb
 	gendiff __fixtures__/before.json __fixtures__/after.json
-
-sj2:
+	
+json-tree:
 	make pb
-	gendiff __fixtures__/before2.json __fixtures__/after2.json
+	gendiff --format tree __fixtures__/before.json __fixtures__/after.json
 
-sy:
+json-plain:
 	make pb
-	gendiff __fixtures__/before.yml __fixtures__/after.yml
+	gendiff --format plain __fixtures__/before.json __fixtures__/after.json
 
-si:
+json-json:
+	make pb
+	gendiff --format json __fixtures__/before.json __fixtures__/after.json
+
+yaml:
+	make pb
+	gendiff __fixtures__/before.yml __fixtures__/after.yml	
+	
+yaml-tree:
+	make pb
+	gendiff --format tree __fixtures__/before.yml __fixtures__/after.yml
+	
+yaml-plain:
+	make pb
+	gendiff --format plain __fixtures__/before.yml __fixtures__/after.yml
+
+yaml-json:
+	make pb
+	gendiff --format json __fixtures__/before.yml __fixtures__/after.yml
+	
+ini:
 	make pb
 	gendiff __fixtures__/before.ini __fixtures__/after.ini
+
+ini-tree:
+	make pb
+	gendiff --format tree __fixtures__/before.ini __fixtures__/after.ini
+
+ini-plain:
+	make pb
+	gendiff --format plain __fixtures__/before.ini __fixtures__/after.ini
+	
+ini-json:
+	make pb
+	gendiff --format json __fixtures__/before.ini __fixtures__/after.ini
 
 build:
 	rm -rf dist

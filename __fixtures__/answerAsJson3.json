@@ -1,0 +1,1 @@
+{"name":"common","type":"removed","value":{"setting1":"Value 1","setting2":200,"setting3":true,"setting6":{"key":"value"}}},{"name":"group1","type":"removed","value":{"baz":"bas","foo":"bar","nest":{"key":"value"}}},{"name":"group2","type":"removed","value":{"abc":12345}
