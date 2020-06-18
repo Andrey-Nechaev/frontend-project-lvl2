@@ -66,3 +66,21 @@ test('Compare as json format', () => {
   expect(compare(beforeIniFile, emptyFile, format)).toBe(answerAsJson3);
   expect(compare(emptyFile, emptyFile, format)).toBe('');
 });
+
+test('Compare JSON files', () => {
+  expect(compare(beforeJsonFile, afterJsonFile, 'stylish')).toBe(answerAsStylish1);
+  expect(compare(beforeJsonFile, afterJsonFile, 'plain')).toBe(answerAsPlain1);
+  expect(compare(beforeJsonFile, afterJsonFile, 'json')).toBe(answerAsJson1);
+});
+
+test('Compare YAML files', () => {
+  expect(compare(beforeYamlFile, afterYamlFile, 'stylish')).toBe(answerAsStylish1);
+  expect(compare(beforeYamlFile, afterYamlFile, 'plain')).toBe(answerAsPlain1);
+  expect(compare(beforeYamlFile, afterYamlFile, 'json')).toBe(answerAsJson1);
+});
+
+test('Compare YAML files', () => {
+  expect(compare(beforeIniFile, afterIniFile, 'stylish')).toBe(answerAsStylish1);
+  expect(compare(beforeIniFile, afterIniFile, 'plain')).toBe(answerAsPlain1);
+  expect(compare(beforeIniFile, afterIniFile, 'json')).toBe(answerAsJson1);
+});
