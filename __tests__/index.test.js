@@ -25,62 +25,62 @@ const answerAsJson1 = readFile(path.join(__dirname, '/../__fixtures__/answerAsJs
 const answerAsJson2 = readFile(path.join(__dirname, '/../__fixtures__/answerAsJson2.json'));
 const answerAsJson3 = readFile(path.join(__dirname, '/../__fixtures__/answerAsJson3.json'));
 
-test('Compare as stylish format', () => {
-  const format = 'stylish';
-  expect(compare(beforeJsonFile, afterJsonFile, format)).toBe(answerAsStylish1);
-  expect(compare(beforeYamlFile, afterYamlFile, format)).toBe(answerAsStylish1);
-  expect(compare(beforeIniFile, afterIniFile, format)).toBe(answerAsStylish1);
-  expect(compare(emptyFile, afterJsonFile, format)).toBe(answerAsStylish2);
-  expect(compare(emptyFile, afterYamlFile, format)).toBe(answerAsStylish2);
-  // expect(compare(emptyFile, afterIniFile, format)).toBe(answerAsStylish2); // не тот порядок
-  expect(compare(beforeJsonFile, emptyFile, format)).toBe(answerAsStylish3);
-  expect(compare(beforeYamlFile, emptyFile, format)).toBe(answerAsStylish3);
-  expect(compare(beforeIniFile, emptyFile, format)).toBe(answerAsStylish3);
-  expect(compare(emptyFile, emptyFile, format)).toBe('');
-});
-
-test('Compare as plain format', () => {
-  const format = 'plain';
-  expect(compare(beforeJsonFile, afterJsonFile, format)).toBe(answerAsPlain1);
-  expect(compare(beforeYamlFile, afterYamlFile, format)).toBe(answerAsPlain1);
-  expect(compare(beforeIniFile, afterIniFile, format)).toBe(answerAsPlain1);
-  expect(compare(emptyFile, afterJsonFile, format)).toBe(answerAsPlain2);
-  expect(compare(emptyFile, afterYamlFile, format)).toBe(answerAsPlain2);
-  expect(compare(emptyFile, afterIniFile, format)).toBe(answerAsPlain2);
-  expect(compare(beforeJsonFile, emptyFile, format)).toBe(answerAsPlain3);
-  expect(compare(beforeYamlFile, emptyFile, format)).toBe(answerAsPlain3);
-  expect(compare(beforeIniFile, emptyFile, format)).toBe(answerAsPlain3);
-  expect(compare(emptyFile, emptyFile, format)).toBe('');
-});
-
-test('Compare as json format', () => {
-  const format = 'json';
-  expect(compare(beforeJsonFile, afterJsonFile, format)).toBe(answerAsJson1);
-  expect(compare(beforeYamlFile, afterYamlFile, format)).toBe(answerAsJson1);
-  expect(compare(beforeIniFile, afterIniFile, format)).toBe(answerAsJson1);
-  expect(compare(emptyFile, afterJsonFile, format)).toBe(answerAsJson2);
-  expect(compare(emptyFile, afterYamlFile, format)).toBe(answerAsJson2);
-  // expect(compare(emptyFile, afterIniFile, format)).toBe(answerAsJson2); // не тот порядок
-  expect(compare(beforeJsonFile, emptyFile, format)).toBe(answerAsJson3);
-  expect(compare(beforeYamlFile, emptyFile, format)).toBe(answerAsJson3);
-  expect(compare(beforeIniFile, emptyFile, format)).toBe(answerAsJson3);
-  expect(compare(emptyFile, emptyFile, format)).toBe('');
-});
-
-test('Compare JSON files', () => {
+test('Compare JSON-JSON files', () => {
   expect(compare(beforeJsonFile, afterJsonFile, 'stylish')).toBe(answerAsStylish1);
   expect(compare(beforeJsonFile, afterJsonFile, 'plain')).toBe(answerAsPlain1);
   expect(compare(beforeJsonFile, afterJsonFile, 'json')).toBe(answerAsJson1);
 });
 
-test('Compare YAML files', () => {
+test('Compare YAML-YAML files', () => {
   expect(compare(beforeYamlFile, afterYamlFile, 'stylish')).toBe(answerAsStylish1);
   expect(compare(beforeYamlFile, afterYamlFile, 'plain')).toBe(answerAsPlain1);
   expect(compare(beforeYamlFile, afterYamlFile, 'json')).toBe(answerAsJson1);
 });
 
-test('Compare YAML files', () => {
+test('Compare ini-ini files', () => {
   expect(compare(beforeIniFile, afterIniFile, 'stylish')).toBe(answerAsStylish1);
   expect(compare(beforeIniFile, afterIniFile, 'plain')).toBe(answerAsPlain1);
   expect(compare(beforeIniFile, afterIniFile, 'json')).toBe(answerAsJson1);
+});
+
+test('Compare empty-JSON files', () => {
+  expect(compare(emptyFile, afterJsonFile, 'stylish')).toBe(answerAsStylish2);
+  expect(compare(emptyFile, afterJsonFile, 'plain')).toBe(answerAsPlain2);
+  expect(compare(emptyFile, afterJsonFile, 'json')).toBe(answerAsJson2);
+});
+
+test('Compare JSON-empty files', () => {
+  expect(compare(beforeJsonFile, emptyFile, 'stylish')).toBe(answerAsStylish3);
+  expect(compare(beforeJsonFile, emptyFile, 'plain')).toBe(answerAsPlain3);
+  expect(compare(beforeJsonFile, emptyFile, 'json')).toBe(answerAsJson3);
+});
+
+test('Compare empty-YAML files', () => {
+  expect(compare(emptyFile, afterYamlFile, 'stylish')).toBe(answerAsStylish2);
+  expect(compare(emptyFile, afterYamlFile, 'plain')).toBe(answerAsPlain2);
+  expect(compare(emptyFile, afterYamlFile, 'json')).toBe(answerAsJson2);
+});
+
+test('Compare YAML-empty files', () => {
+  expect(compare(beforeYamlFile, emptyFile, 'stylish')).toBe(answerAsStylish3);
+  expect(compare(beforeYamlFile, emptyFile, 'plain')).toBe(answerAsPlain3);
+  expect(compare(beforeYamlFile, emptyFile, 'json')).toBe(answerAsJson3);
+});
+
+test('Compare empty-ini files', () => {
+  // expect(compare(emptyFile, afterIniFile, 'stylish')).toBe(answerAsStylish2); // не в том порядке
+  expect(compare(emptyFile, afterIniFile, 'plain')).toBe(answerAsPlain2);
+  // expect(compare(emptyFile, afterIniFile, 'json')).toBe(answerAsJson2); // не в том порядке
+});
+
+test('Compare ini-empty files', () => {
+  expect(compare(beforeIniFile, emptyFile, 'stylish')).toBe(answerAsStylish3);
+  expect(compare(beforeIniFile, emptyFile, 'plain')).toBe(answerAsPlain3);
+  expect(compare(beforeIniFile, emptyFile, 'json')).toBe(answerAsJson3);
+});
+
+test('Compare empty-empty files', () => {
+  expect(compare(emptyFile, emptyFile, 'stylish')).toBe('');
+  expect(compare(emptyFile, emptyFile, 'plain')).toBe('');
+  expect(compare(emptyFile, emptyFile, 'json')).toBe('');
 });
