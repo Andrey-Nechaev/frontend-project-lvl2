@@ -7,10 +7,10 @@ GenDiff is comand line application looking for difference between two files. App
 ## Prerequisites</h2>
 You must have instaled node.js and npm on your system
 
-## Instaaling
-From projects directory execute follow conmmands:
-`npm link` (Make sure you have nescessary rights to run. May be required run command as root / administrator for your OS)
-`make publish`
+## Installing
+From projects directory execute follow conmmands:  
+`npm link` (Make sure you have nescessary rights to run. May be required run command as root / administrator for your OS);  
+`make publish`;
 
 ## Usage
 <a href="https://asciinema.org/a/301468" target="_blank"><img src="https://asciinema.org/a/301468.svg" /></a>
