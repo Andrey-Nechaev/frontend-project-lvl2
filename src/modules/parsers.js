@@ -7,8 +7,7 @@ export default (content, type) => {
   if (type === '.yml' || type === '.yaml') parser = yaml.safeLoad;
   if (type === '.json') parser = JSON.parse;
   if (type === '.ini') parser = ini.parse;
-  // Если внутренняя структура файла не соответствует формату, и возникнет ошибка парсинга,
-  // вернуть пустой объект
+
   try {
     return parser(content);
   } catch (err) {

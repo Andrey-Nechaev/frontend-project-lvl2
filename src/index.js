@@ -11,7 +11,6 @@ const buildDiffs = (obj1, obj2) => {
   const allUniqKeys = _.union(keysOfObj1, keysOfObj2);
 
   return allUniqKeys.reduce((acc, key) => {
-    // inner - когда и 1 и 2 значения являются объектами
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
       return [...acc, { name: key, type: 'inner', children: buildDiffs(obj1[key], obj2[key]) }];
     }
@@ -34,9 +33,10 @@ const parseContentOf = (pathToFile) => {
   return parse(contentOfFile, typeOfFile);
 };
 
-export default (pathToFile1, pathToFile2, format = 'tree') => {
+export default (pathToFile1, pathToFile2, format) => {
   const parsedContentOfFile1 = parseContentOf(pathToFile1);
   const parsedContentOfFile2 = parseContentOf(pathToFile2);
+  const render = _.has(renders, format) ? renders[format] : renders.stylish;
   const data = buildDiffs(parsedContentOfFile1, parsedContentOfFile2);
-  return renders[format](data);
+  return render(data);
 };

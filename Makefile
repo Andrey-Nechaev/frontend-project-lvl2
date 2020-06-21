@@ -7,7 +7,7 @@ json:
 	
 json-tree:
 	make pb
-	gendiff --format tree __fixtures__/before.json __fixtures__/after.json
+	gendiff --format stylish __fixtures__/before.json __fixtures__/after.json
 
 json-plain:
 	make pb
@@ -23,7 +23,7 @@ yaml:
 	
 yaml-tree:
 	make pb
-	gendiff --format tree __fixtures__/before.yml __fixtures__/after.yml
+	gendiff --format stylish __fixtures__/before.yml __fixtures__/after.yml
 	
 yaml-plain:
 	make pb
@@ -39,7 +39,7 @@ ini:
 
 ini-tree:
 	make pb
-	gendiff --format tree __fixtures__/before.ini __fixtures__/after.ini
+	gendiff --format stylish __fixtures__/before.ini __fixtures__/after.ini
 
 ini-plain:
 	make pb
@@ -60,6 +60,7 @@ lint:
 	npx eslint .
 
 test:
+	make pb
 	npm test
 
 test-coverage:

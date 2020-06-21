@@ -19,7 +19,7 @@ const plainRender = (diffs, path = []) => {
       return `Property '${curentName.join('.')}' was added with value: '${stringify(value)}'`;
     }
     if (type === 'changed') {
-      return `Prooerty '${curentName.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
+      return `Property '${curentName.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
     }
     return null;
   };
