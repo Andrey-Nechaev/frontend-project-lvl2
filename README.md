@@ -13,7 +13,7 @@ From projects directory execute follow conmmands:
 `make publish`;
 
 ## Usage
-<a href="https://asciinema.org/a/301468" target="_blank"><img src="https://asciinema.org/a/301468.svg" /></a>
+<a href="https://asciinema.org/a/m4CWTxi1xDT7o19m1oZfb0y2b" target="_blank"><img src="https://asciinema.org/a/m4CWTxi1xDT7o19m1oZfb0y2b.svg" /></a>
 
 ## Built with
 * [NPM](https://www.npmjs.com/) - Dependency Management

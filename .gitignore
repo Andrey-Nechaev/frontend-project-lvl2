@@ -2,3 +2,6 @@
 /dist/
 before.json
 after.json
+lint.json
+npm-debug.log
+.directory
