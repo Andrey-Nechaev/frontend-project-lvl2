@@ -6,11 +6,11 @@ const stringify = (arg) => {
 };
 
 const plainRender = (diffs, path = []) => {
-  const diffToString = (diff, fullPropertyName) => {
-    const curentName = [...fullPropertyName, diff.name];
-    const { type, value, oldValue, newValue } = diff;
+  const diffToString = (diff, pathToInerProperty) => {
+    const { name, type, value, oldValue, newValue, children } = diff;
+    const curentName = [...pathToInerProperty, name];
     if (type === 'inner') {
-      return plainRender(diff.children, curentName);
+      return plainRender(children, curentName);
     }
     if (type === 'removed') {
       return `Property '${curentName.join('.')}' was deleted`;
@@ -21,9 +21,12 @@ const plainRender = (diffs, path = []) => {
     if (type === 'changed') {
       return `Property '${curentName.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
     }
-    return null;
+    return null; // когда тип unchanged
   };
-  return diffs.map((diff) => diffToString(diff, path)).filter((str) => str !== null).join('\n');
+  return diffs
+    .map((diff) => diffToString(diff, path))
+    .filter((str) => str !== null)
+    .join('\n');
 };
 
 export default plainRender;

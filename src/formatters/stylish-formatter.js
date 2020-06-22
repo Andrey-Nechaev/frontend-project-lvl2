@@ -18,7 +18,6 @@ const stringify = (value, currentDeep) => {
 const arrayToString = (diffs, deep = 0) => {
   const diffToString = (diff, currentDeep) => {
     const { name, type, value, oldValue, newValue, children } = diff;
-
     const offset = calculateOffset(currentDeep);
 
     if (type === 'inner') {
