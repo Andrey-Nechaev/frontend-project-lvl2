@@ -61,7 +61,7 @@ export default (pathToFile1, pathToFile2, outputFormat) => {
   const typeOfFile1 = path.extname(pathToFile1).slice(1).toLowerCase();
   const typeOfFile2 = path.extname(pathToFile2).slice(1).toLowerCase();
   const parsedContent1 = parse(contentOfFile1, typeOfFile1);
-  const parsedContent2 = parse(contentOfFile2, typeOfFile2);  
+  const parsedContent2 = parse(contentOfFile2, typeOfFile2);
   const render = _.has(renders, outputFormat) ? renders[outputFormat] : renders.stylish;
   const data = buildDiffs(parsedContent1, parsedContent2);
   return render(data);

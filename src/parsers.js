@@ -9,6 +9,6 @@ export default (content, type) => {
     json: JSON.parse,
     ini: ini.parse,
   };
-  if (!_.has(parse, type)) throw new Error(`Gendiff не поддерживает сравнение ${type}-файлов`); 
+  if (!_.has(parse, type)) throw new Error(`Gendiff не поддерживает сравнение ${type}-файлов`);
   return parse[type](content);
 };
