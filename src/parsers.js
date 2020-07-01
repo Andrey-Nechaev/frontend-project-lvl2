@@ -1,5 +1,6 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
+import _ from 'lodash';
 
 export default (content, type) => {
   const parse = {
@@ -8,9 +9,6 @@ export default (content, type) => {
     json: JSON.parse,
     ini: ini.parse,
   };
-  try {
-    return parse[type](content);
-  } catch (err) {
-    throw new Error('Неподдерживаемый формат входных данных');
-  }
+  if (!_.has(parse, type)) throw new Error(`Gendiff не поддерживает сравнение ${type}-файлов`); 
+  return parse[type](content);
 };

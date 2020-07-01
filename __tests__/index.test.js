@@ -8,13 +8,13 @@ const readFile = (pathToFile) => {
   try {
     return fs.readFileSync(pathToFile, 'utf-8');
   } catch (err) {
-    throw new Error('Ошибка чтения файла');
+    throw new Error(`Ошибка чтения файла\n${err.name}: ${err.message}`);
   }
 };
 
-const answerAsStylish = readFile('answerAsStylish');
-const answerAsPlain = readFile('answerAsPlain');
-const answerAsJson = readFile('answerAsJson.json');
+const answerAsStylish = readFile(getFixturePath('answerAsStylish'));
+const answerAsPlain = readFile(getFixturePath('answerAsPlain'));
+const answerAsJson = readFile(getFixturePath('answerAsJson.json'));
 
 test.each([
   ['JSON, stylish output', getFixturePath('before.json'), getFixturePath('after.json'), 'stylish', answerAsStylish],
@@ -26,6 +26,6 @@ test.each([
   ['ini, stylish output', getFixturePath('before.ini'), getFixturePath('after.ini'), 'stylish', answerAsStylish],
   ['ini, plain output', getFixturePath('before.ini'), getFixturePath('after.ini'), 'plain', answerAsPlain],
   ['ini, json output', getFixturePath('before.ini'), getFixturePath('after.ini'), 'json', answerAsJson],
-])('Compare %o', (nameOfTest, path1, path2, outputFormat, expected) => {
+])('Compare %o', (testName, path1, path2, outputFormat, expected) => {
   expect(compare(path1, path2, outputFormat)).toBe(expected);
 });
