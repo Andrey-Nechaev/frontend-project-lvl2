@@ -5,26 +5,33 @@ const stringify = (arg) => {
   return arg;
 };
 
-const plainRender = (diffs, path = []) => {
-  const diffToString = (diff, pathToInerProperty) => {
-    const { name, type, value, oldValue, newValue, children } = diff;
-    const curentName = [...pathToInerProperty, name];
+const plainRender = (diffs, pathToInnerProperty = []) => {
+  const diffToString = (diff, previousNames) => {
+    const {
+      name,
+      type,
+      value,
+      oldValue,
+      newValue,
+      children,
+    } = diff;
+    const currentPathToInnerProperty = [...previousNames, name];
     if (type === 'inner') {
-      return plainRender(children, curentName);
+      return plainRender(children, currentPathToInnerProperty);
     }
     if (type === 'removed') {
-      return `Property '${curentName.join('.')}' was deleted`;
+      return `Property '${currentPathToInnerProperty.join('.')}' was deleted`;
     }
     if (type === 'added') {
-      return `Property '${curentName.join('.')}' was added with value: '${stringify(value)}'`;
+      return `Property '${currentPathToInnerProperty.join('.')}' was added with value: '${stringify(value)}'`;
     }
     if (type === 'changed') {
-      return `Property '${curentName.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
+      return `Property '${currentPathToInnerProperty.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
     }
     return null; // когда тип unchanged
   };
   return diffs
-    .map((diff) => diffToString(diff, path))
+    .map((diff) => diffToString(diff, pathToInnerProperty))
     .filter((str) => str !== null)
     .join('\n');
 };

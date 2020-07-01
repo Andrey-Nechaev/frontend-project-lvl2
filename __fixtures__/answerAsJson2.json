@@ -1,1 +1,0 @@
-{"name":"common","type":"added","value":{"follow":false,"setting1":"Value 1","setting3":{"key":"value"},"setting4":"blah blah","setting5":{"key5":"value5"},"setting6":{"key":"value","ops":"vops"}}},{"name":"group1","type":"added","value":{"foo":"bar","baz":"bars","nest":"str"}},{"name":"group3","type":"added","value":{"fee":100500}

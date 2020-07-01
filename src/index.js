@@ -1,42 +1,68 @@
+import fs from 'fs';
+import path from 'path';
 import _ from 'lodash';
-import parse from './modules/parsers';
+import parse from './parsers';
 import renders from './formatters/index';
-import readFile from './modules/utils';
 
-const path = require('path');
+const readFile = (pathToFile) => {
+  try {
+    return fs.readFileSync(pathToFile, 'utf-8');
+  } catch (err) {
+    throw new Error('Ошибка чтения файла');
+  }
+};
 
-const buildDiffs = (obj1, obj2) => {
-  const keysOfObj1 = Object.keys(obj1);
-  const keysOfObj2 = Object.keys(obj2);
-  const allUniqKeys = _.union(keysOfObj1, keysOfObj2);
+const buildDiffs = (content1, content2) => {
+  const keysOfcontent1 = Object.keys(content1);
+  const keysOfcontent2 = Object.keys(content2);
+  const allUniqueKeys = _.union(keysOfcontent1, keysOfcontent2);
 
-  return allUniqKeys.reduce((acc, key) => {
-    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return [...acc, { name: key, type: 'inner', children: buildDiffs(obj1[key], obj2[key]) }];
+  return allUniqueKeys.reduce((acc, key) => {
+    if (_.isObject(content1[key]) && _.isObject(content2[key])) {
+      return [...acc, {
+        name: key,
+        type: 'inner',
+        children: buildDiffs(content1[key], content2[key]),
+      }];
     }
-    if (keysOfObj1.includes(key) && !keysOfObj2.includes(key)) {
-      return [...acc, { name: key, type: 'removed', value: obj1[key] }];
+    if (keysOfcontent1.includes(key) && !keysOfcontent2.includes(key)) {
+      return [...acc, {
+        name: key,
+        type: 'removed',
+        value: content1[key],
+      }];
     }
-    if (!keysOfObj1.includes(key) && keysOfObj2.includes(key)) {
-      return [...acc, { name: key, type: 'added', value: obj2[key] }];
+    if (!keysOfcontent1.includes(key) && keysOfcontent2.includes(key)) {
+      return [...acc, {
+        name: key,
+        type: 'added',
+        value: content2[key],
+      }];
     }
-    if (obj1[key] === obj2[key]) {
-      return [...acc, { name: key, type: 'unchanged', value: obj1[key] }];
+    if (content1[key] === content2[key]) {
+      return [...acc, {
+        name: key,
+        type: 'unchanged',
+        value: content1[key],
+      }];
     }
-    return [...acc, { name: key, type: 'changed', oldValue: obj1[key], newValue: obj2[key] }];
+    return [...acc, {
+      name: key,
+      type: 'changed',
+      oldValue: content1[key],
+      newValue: content2[key],
+    }];
   }, []);
 };
 
-const parseContentOf = (pathToFile) => {
-  const contentOfFile = readFile(pathToFile);
-  const typeOfFile = path.extname(pathToFile).toLowerCase();
-  return parse(contentOfFile, typeOfFile);
-};
-
-export default (pathToFile1, pathToFile2, format) => {
-  const parsedContentOfFile1 = parseContentOf(pathToFile1);
-  const parsedContentOfFile2 = parseContentOf(pathToFile2);
-  const render = _.has(renders, format) ? renders[format] : renders.stylish;
-  const data = buildDiffs(parsedContentOfFile1, parsedContentOfFile2);
+export default (pathToFile1, pathToFile2, outputFormat) => {
+  const contentOfFile1 = readFile(pathToFile1);
+  const contentOfFile2 = readFile(pathToFile2);
+  const typeOfFile1 = path.extname(pathToFile1).slice(1).toLowerCase();
+  const typeOfFile2 = path.extname(pathToFile2).slice(1).toLowerCase();
+  const parsedContent1 = parse(contentOfFile1, typeOfFile1);
+  const parsedContent2 = parse(contentOfFile2, typeOfFile2);
+  const render = _.has(renders, outputFormat) ? renders[outputFormat] : renders.stylish;
+  const data = buildDiffs(parsedContent1, parsedContent2);
   return render(data);
 };
