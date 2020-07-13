@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
-const stringify = (arg) => {
-  if (_.isObject(arg)) return '[complex value]';
-  return arg;
+const stringify = (value) => {
+  if (_.isObject(value)) return '[complex value]';
+  return value;
 };
 
-const plainRender = (diffs, pathToInnerProperty = []) => {
+const plainRender = (diffs, names = []) => {
   const diffToString = (diff, previousNames) => {
     const {
       name,
@@ -15,23 +15,18 @@ const plainRender = (diffs, pathToInnerProperty = []) => {
       newValue,
       children,
     } = diff;
-    const currentPathToInnerProperty = [...previousNames, name];
-    if (type === 'inner') {
-      return plainRender(children, currentPathToInnerProperty);
+
+    const pathFragments = [...previousNames, name];
+    switch (type) {
+      case 'inner': return plainRender(children, pathFragments);
+      case 'removed': return `Property '${pathFragments.join('.')}' was deleted`;
+      case 'added': return `Property '${pathFragments.join('.')}' was added with value: '${stringify(value)}'`;
+      case 'changed': return `Property '${pathFragments.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
+      default: return null; // unchanged
     }
-    if (type === 'removed') {
-      return `Property '${currentPathToInnerProperty.join('.')}' was deleted`;
-    }
-    if (type === 'added') {
-      return `Property '${currentPathToInnerProperty.join('.')}' was added with value: '${stringify(value)}'`;
-    }
-    if (type === 'changed') {
-      return `Property '${currentPathToInnerProperty.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
-    }
-    return null; // когда тип unchanged
   };
   return diffs
-    .map((diff) => diffToString(diff, pathToInnerProperty))
+    .map((diff) => diffToString(diff, names))
     .filter((str) => str !== null)
     .join('\n');
 };

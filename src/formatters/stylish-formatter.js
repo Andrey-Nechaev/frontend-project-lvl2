@@ -1,23 +1,21 @@
 import _ from 'lodash';
 
-const calculateOffset = (deep) => {
+const calculateOffset = (depth) => {
   const shift = '    ';
-  return shift.repeat(deep);
+  return shift.repeat(depth);
 };
 
-const stringify = (value, currentDeep) => {
-  const offset = calculateOffset(currentDeep);
-  const childrenOffset = calculateOffset(currentDeep + 1);
-  if (_.isObject(value)) {
-    const keys = _.keys(value);
-    const renderedStrings = keys.map((key) => `${childrenOffset}    ${[key]}: ${stringify(value[key], currentDeep + 1)}`);
-    return `{\n${renderedStrings.join('\n')}\n${offset}    }`;
-  }
-  return value;
+const stringify = (value, currentdepth) => {
+  const offset = calculateOffset(currentdepth);
+  const childrenOffset = calculateOffset(currentdepth + 1);
+  if (!_.isObject(value)) return value;
+  const keys = _.keys(value);
+  const renderedStrings = keys.map((key) => `${childrenOffset}    ${[key]}: ${stringify(value[key], currentdepth + 1)}`);
+  return `{\n${renderedStrings.join('\n')}\n${offset}    }`;
 };
 
-const diffsToString = (diffs, deep = 0) => {
-  const diffToString = (diff, currentDeep) => {
+const diffsToString = (diffs, depth = 0) => {
+  const diffToString = (diff, currentdepth) => {
     const {
       name,
       type,
@@ -26,25 +24,18 @@ const diffsToString = (diffs, deep = 0) => {
       newValue,
       children,
     } = diff;
-    const offset = calculateOffset(currentDeep);
+    const offset = calculateOffset(currentdepth);
 
-    if (type === 'inner') {
-      return `${offset}    ${name}: {\n${diffsToString(children, currentDeep + 1)}\n${offset}    }`;
+    switch (type) {
+      case 'inner': return `${offset}    ${name}: {\n${diffsToString(children, currentdepth + 1)}\n${offset}    }`;
+      case 'unchanged': return `${offset}    ${name}: ${stringify(value, currentdepth)}`;
+      case 'changed': return `${offset}  - ${name}: ${stringify(oldValue, currentdepth)}\n${offset}  + ${name}: ${stringify(newValue, currentdepth)}`;
+      case 'removed': return `${offset}  - ${name}: ${stringify(value, currentdepth)}`;
+      default: return `${offset}  + ${name}: ${stringify(value, currentdepth)}`;
     }
-    if (type === 'unchanged') {
-      return `${offset}    ${name}: ${stringify(value, currentDeep)}`;
-    }
-    if (type === 'changed') {
-      return `${offset}  - ${name}: ${stringify(oldValue, currentDeep)}\n${offset}  + ${name}: ${stringify(newValue, currentDeep)}`;
-    }
-    if (type === 'removed') {
-      return `${offset}  - ${name}: ${stringify(value, currentDeep)}`;
-    }
-    // когда type === 'added'
-    return `${offset}  + ${name}: ${stringify(value, currentDeep)}`;
   };
 
-  return `${diffs.map((diff) => diffToString(diff, deep)).join('\n')}`;
+  return `${diffs.map((diff) => diffToString(diff, depth)).join('\n')}`;
 };
 
 const stylishRender = (diffs) => {
