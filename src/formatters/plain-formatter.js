@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
 const stringify = (value) => {
-  if (_.isObject(value)) return '[complex value]';
+  if (_.isObject(value)) {
+    return '[complex value]';
+  }
   return value;
 };
 
@@ -22,7 +24,8 @@ const plainRender = (diffs, names = []) => {
       case 'removed': return `Property '${pathFragments.join('.')}' was deleted`;
       case 'added': return `Property '${pathFragments.join('.')}' was added with value: '${stringify(value)}'`;
       case 'changed': return `Property '${pathFragments.join('.')}' was changed from '${stringify(oldValue)}' to '${stringify(newValue)}'`;
-      default: return null; // unchanged
+      case 'unchanged': return null;
+      default: throw new Error(`Unknown type of difference: '${type}'!`);
     }
   };
   return diffs

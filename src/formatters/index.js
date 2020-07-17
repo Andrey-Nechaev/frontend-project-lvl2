@@ -10,7 +10,9 @@ const renders = {
 };
 
 const render = (data, outputFormat) => {
-  if (_.has(renders, outputFormat)) return renders[outputFormat](data);
+  if (_.has(renders, outputFormat)) {
+    return renders[outputFormat](data);
+  }
   return renders.stylish(data);
 };
 export default render;

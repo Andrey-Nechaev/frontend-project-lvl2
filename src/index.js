@@ -12,15 +12,6 @@ const buildDiffs = (content1, content2) => {
   const allUniqueKeys = _.union(keysOfcontent1, keysOfcontent2);
 
   return allUniqueKeys.map((key) => {
-    if (_.has(content1, key) && _.has(content2, key)) {
-      if (_.isObject(content1[key]) && _.isObject(content2[key])) {
-        return {
-          name: key,
-          type: 'inner',
-          children: buildDiffs(content1[key], content2[key]),
-        };
-      }
-    }
     if (_.has(content1, key) && !_.has(content2, key)) {
       return {
         name: key,
@@ -40,6 +31,13 @@ const buildDiffs = (content1, content2) => {
         name: key,
         type: 'unchanged',
         value: content1[key],
+      };
+    }
+    if (_.isObject(content1[key]) && _.isObject(content2[key])) {
+      return {
+        name: key,
+        type: 'inner',
+        children: buildDiffs(content1[key], content2[key]),
       };
     }
     return {

@@ -8,7 +8,9 @@ const calculateOffset = (depth) => {
 const stringify = (value, currentdepth) => {
   const offset = calculateOffset(currentdepth);
   const childrenOffset = calculateOffset(currentdepth + 1);
-  if (!_.isObject(value)) return value;
+  if (!_.isObject(value)) {
+    return value;
+  }
   const keys = _.keys(value);
   const renderedStrings = keys.map((key) => `${childrenOffset}    ${[key]}: ${stringify(value[key], currentdepth + 1)}`);
   return `{\n${renderedStrings.join('\n')}\n${offset}    }`;
@@ -31,7 +33,8 @@ const diffsToString = (diffs, depth = 0) => {
       case 'unchanged': return `${offset}    ${name}: ${stringify(value, currentdepth)}`;
       case 'changed': return `${offset}  - ${name}: ${stringify(oldValue, currentdepth)}\n${offset}  + ${name}: ${stringify(newValue, currentdepth)}`;
       case 'removed': return `${offset}  - ${name}: ${stringify(value, currentdepth)}`;
-      default: return `${offset}  + ${name}: ${stringify(value, currentdepth)}`;
+      case 'added': return `${offset}  + ${name}: ${stringify(value, currentdepth)}`;
+      default: throw new Error(`Unknown type of difference: '${type}'!`);
     }
   };
 
