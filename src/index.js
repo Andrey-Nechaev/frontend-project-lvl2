@@ -12,14 +12,14 @@ const buildDiffs = (content1, content2) => {
   const allUniqueKeys = _.union(keysOfcontent1, keysOfcontent2);
 
   return allUniqueKeys.map((key) => {
-    if (_.has(content1, key) && !_.has(content2, key)) {
+    if (!_.has(content2, key)) {
       return {
         name: key,
         type: 'removed',
         value: content1[key],
       };
     }
-    if (!_.has(content1, key) && _.has(content2, key)) {
+    if (!_.has(content1, key)) {
       return {
         name: key,
         type: 'added',
